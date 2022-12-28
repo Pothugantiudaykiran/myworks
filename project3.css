@@ -1,0 +1,21 @@
+.bro{
+    background-image:url(' https://d1tgh8fmlzexmh.cloudfront.net/ccbp-static-website/codingbg.png');
+    background-size:cover;
+    height:100vh;
+
+    padding: 25px;
+}
+.coding-card {
+    border-style:solid;
+    border-color:#48ee59;
+    background-color:#00000080;
+    border-width:6px;
+    padding:45px;
+}
+.p{
+   color:white;
+   
+   font-family:"bree serif";
+   font-size: 40px;
+   
+}
