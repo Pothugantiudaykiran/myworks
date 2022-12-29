@@ -1,0 +1,37 @@
+.uday{
+    background-image:url('https://d1tgh8fmlzexmh.cloudfront.net/ccbp-static-website/foodbg.png');
+    background-size:cover;
+    height:100vh;
+    width:75vw;
+    text-align:;
+}
+.main-heading{
+    color:#0d0712;
+    font-family:bree serif;
+}
+.p{
+    color:#0d0712;
+    font-size:20px;
+    font-family:roboto;
+}
+.button{
+    color:#0d0712;
+    border-radius:10px;
+    background-color:#ffffff
+    font-family:roboto;
+    border-width:0px;
+    font-size:20px;
+    text-align:center;
+    
+    
+}
+.order-card-title{
+    color:#323f4b;
+    font-family:"bree serif";
+    font-size:30px;
+    background-color:#f6c56e;
+    padding:20px;
+    border-top-left-radius:20px;
+    border-top-right-radius:20px;
+    
+}
