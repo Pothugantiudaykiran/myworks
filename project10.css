@@ -1,0 +1,32 @@
+@import url("https://fonts.googleapis.com/css2?family=Bree+Serif&family=Caveat:wght@400;700&family=Lobster&family=Monoton&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Playfair+Display+SC:ital,wght@0,400;0,700;1,700&family=Playfair+Display:ital,wght@0,400;0,700;1,700&family=Roboto:ital,wght@0,400;0,700;1,400;1,700&family=Source+Sans+Pro:ital,wght@0,400;0,700;1,700&family=Work+Sans:ital,wght@0,400;0,700;1,700&display=swap");
+
+.bg-img {
+    background-image:url(" https://d1tgh8fmlzexmh.cloudfront.net/ccbp-static-website/iphoneX-bg.png");
+    background-size:cover;
+    height:63vh;
+}
+.main-heading {
+    color:#0a1f44;
+    font-family:roboto;
+    font-size:20px;
+    padding:20px;
+    font-weight:bold;
+}
+.para-graph {
+    font-size:15px;
+    font-weight:bold;
+    color:#707070;
+    border-width:20px;}
+.btn btn-primary{
+        background-color: navy blue;
+        color:white;
+        text-align:center;
+    }
+    .button-one {
+        text-align:center;
+        padding:15px;
+    }
+    .bg-container {
+        border-radius:50px;
+        color:black;
+    }
