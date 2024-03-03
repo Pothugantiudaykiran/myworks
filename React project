@@ -1,0 +1,156 @@
+javascript
+// server.js
+const express = require('express');
+const { Pool } = require('pg');
+
+const app = express();
+const port = 3000;
+
+// Creating a connection pool to the PostgreSQL database
+const pool = new Pool({
+  user: 'your_username',
+  host: 'your_host',
+  database: 'your_database',
+  password: 'your_password',
+  port: 5432,
+});
+
+// Creating 50 dummy records in the database
+app.get('/create-dummy-records', async (req, res) => {
+  try {
+    for (let i = 0; i < 50; i++) {
+      const query = `INSERT INTO records (sno, customer_name, age, phone, location, created_at)
+                     VALUES (${i + 1}, 'Customer ${i + 1}', 30, '123456789', 'Location ${i + 1}', NOW())`;
+      await pool.query(query);
+    }
+    res.send('Dummy records created successfully');
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('An error occurred');
+  }
+});
+
+// Fetch records from the database with search and sort options
+app.get('/fetch-records', async (req, res) => {
+  try {
+    const search = req.query.search || '';
+    const sort = req.query.sort || '';
+
+    const query = `SELECT sno, customer_name, age, phone, location,
+                          DATE(created_at) AS date, TIME(created_at) AS time
+                   FROM records
+                   WHERE customer_name ILIKE '%${search}%' OR location ILIKE '%${search}%'
+                   ORDER BY ${sort === 'date' ? 'date' : 'time'}
+                   LIMIT 20 OFFSET ${(req.query.page || 1) * 20}`;
+
+    const result = await pool.query(query);
+    res.json(result.rows);
+  } catch (error) {
+    console.error(error);
+    res.status(500).send('An error occurred');
+  }
+});
+
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
+});
+
+
+ let's create the frontend using React:
+
+jsx
+// App.js
+import React, { useState, useEffect } from 'react';
+
+const App = () => {
+  const [records, setRecords] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [sortBy, setSortBy] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
+  useEffect(() => {
+    fetchData();
+  }, [searchTerm, sortBy, currentPage]);
+
+  const fetchData = async () => {
+    try {
+      const response = await fetch(`/fetch-records?search=${searchTerm}&sort=${sortBy}&page=${currentPage}`);
+      const data = await response.json();
+      setRecords(data);
+      setTotalPages(Math.ceil(data.length / 20));
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleSearch = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
+  const handleSort = (e) => {
+    setSortBy(e.target.value);
+  };
+
+  const handlePagination = (page) => {
+    setCurrentPage(page);
+  };
+
+  const renderTable = () => {
+    return (
+      <table>
+        <thead>
+          <tr>
+            <th>Sno</th>
+            <th>Customer Name</th>
+            <th>Age</th>
+            <th>Phone</th>
+            <th>Location</th>
+            <th>Date</th>
+            <th>Time</th>
+          </tr>
+        </thead>
+        <tbody>
+          {records.map((record) => (
+            <tr key={record.sno}>
+              <td>{record.sno}</td>
+              <td>{record.customer_name}</td>
+              <td>{record.age}</td>
+              <td>{record.phone}</td>
+              <td>{record.location}</td>
+              <td>{record.date}</td>
+              <td>{record.time}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    );
+  };
+
+  const renderPagination = () => {
+    const pages = [];
+    for (let i = 1; i <= totalPages; i++) {
+      pages.push(
+        <button key={i} onClick={() => handlePagination(i)} disabled={i === currentPage}>
+          {i}
+        </button>
+      );
+    }
+    return <div className="pagination">{pages}</div>;
+  };
+
+  return (
+    <div>
+      <input type="text" placeholder="Search by name or location" value={searchTerm} onChange={handleSearch} />
+      <select value={sortBy} onChange={handleSort}>
+        <option value="">Sort by</option>
+        <option value="date">Date</option>
+        <option value="time">Time</option>
+      </select>
+      {renderTable()}
+      {renderPagination()}
+    </div>
+  );
+};
+
+export default App;
